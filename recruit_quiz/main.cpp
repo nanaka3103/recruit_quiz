@@ -55,6 +55,12 @@ int main()
 		"この円錐の体積をXπ㎝^3とする。Xの値を求めよ。",
 		x * x * y / 3});
 
+	// 球の体積
+	x = uniform_int_distribution<>(1, 5)(rand);
+	questions.push_back({
+		"半径" + to_string(x) + "cmの球がある。\n" +
+		"この球の体積をXπ㎝^3とする。Xの値を求めよ。",
+		 x * x * x });
 
 
 	cout << "[リクルート試験対策クイズ]\n";
