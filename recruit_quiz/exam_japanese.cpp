@@ -158,9 +158,35 @@ QuestionList CreateHomophoneExam()
 			{ "納める", "金や物を渡すべきところに渡す" },
 			{ "治める", "乱れている物事を落ち着いて穏やかな状態にする" },
 			{ "修める", "行いや人格を正しくする、学問や技芸などを学んで身につける" }}},
+		{"しょうかい",{
+			{"紹介","何かを行うとき、期間。"},
+			{ "照会" , "物事を行うのによい機会" }}},
+		{ "いじょう", {
+			{ "異常", "実際には経験していない事柄を思い描くこと" },
+			{ "異状", "新しいものを作り上げること" }}},
+		{ "きょうこう", {
+			{ "強行", "間違いがなく確かであると約束すること" },
+			{ "強硬", "権利や地位などが維持されるように保護し守ること" }}},
+		{ "じったい", {
+			{ "実体", "行為の目標となるもの" },
+			{ "実態", "２つの図形や物事が互いにつり合っていること" }}},
+		{ "きょうい", {
+			{ "脅威", "失敗について許しを求める" },
+			{ "驚異", "間違った判断をする" }}},
+		{ "かいしん", {
+			{ "会心", "期待どおりに物事が運んで満足すること" },
+			{ "改心", "悪い考えや行いを反省し、良い心に改めること" }}},
+		{ "しめる", {
+			{ "占める", "場所、位置、地位などを自分のものにする" },
+			{ "締める", "強く引っ張ったりひねったりして、緩みのないようにする" },
+			{ "閉める", "物を動かしてすき間をふさぐ" }}},
+		{"つつしむ",{
+			{ "謹む","	相手を敬い尊重する"},
+			{ "慎む" , "あやまちを起こさないよう控えめに行動する" }}},
+
 	};
 
-	constexpr int quizCount = 5;
+	constexpr int quizCount = 14;
 	QuestionList questions;
 	questions.reserve(quizCount);
 	const vector<int> indices = CreateRandomIndices(size(data));
@@ -190,8 +216,114 @@ QuestionList CreateHomophoneExam()
 		}
 		 questions.push_back({ s, to_string(correctNo) });
 
-	}
-
+		}
 		return questions;
 }
 
+/*
+	*対義語の問題を作成する
+*/
+QuestionList CreateAntonymExam()
+{
+	const struct {
+		const char* kanji[2];
+	}data[] = {
+		{ "意図(いと)","恣意(しい)"},{ "需要(じゅよう)","供給(きょうきゅう)"},
+		{ "故意(こい)", "過失(かしつ)" }, { "曖昧(あいまい)", "明瞭(めいりょう)" },
+		{ "緊張(きんちょう)", "弛緩(しかん)" }, { "過疎(かそ)", "過密(かみつ)" },
+		{ "栄転(えいてん)", "左遷(させん)" }, { "消費(しょうひ)", "生産(せいさん)" },
+		{ "異端(いたん)", "正統(せいとう)" }, { "尊敬(そんけい)", "軽蔑(けいべつ)" },
+		{ "警戒(けいかい)","油断(ゆだん)"},{ "帰納(きのう)","演繹(えんえき)"},
+		{ "枯渇(こかつ)", "潤沢(じゅんたく)" }, { "乾燥(かんそう)", "湿潤(しつじゅん)" },
+		{ "称賛(しょうさん)", "罵倒(ばとう)" }, { "中枢(ちゅうすう)", "末端(まったん)" },
+		{ "絶賛(ぜっさん)", "酷評(こくひょう)" }, { "創造(そうぞう)", "模倣(もほう)" },
+		{ "過激(かげき)", "穏健(おんけん)" }, { "質素(しっそ)", "華美(かび)" },
+
+	};
+
+	constexpr int quizCount = 10;
+	QuestionList questions;
+	questions.reserve(quizCount);
+	const vector<int> indices = CreateRandomIndices(size(data));
+	random_device rd;
+
+		for (int i = 0; i < quizCount; i++) {
+	    // 間違った番号をランダムに選ぶ
+			const int correctIndex = indices[i];
+		vector<int> answers = CreateWrongIndices(size(data), correctIndex);
+
+	    // ランダムな位置を正しい番号で上書き
+			const int correctNo = uniform_int_distribution<>(1, 4)(rd);
+		answers[correctNo - 1] = correctIndex;
+		
+	    // 問題文を作成
+			const int object = uniform_int_distribution<>(0, 1)(rd);
+		const int other = (object + 1) % 2;
+		string s = "「" + string(data[correctIndex].kanji[object]) +
+			"」の対義語として正しい番号を選べ";
+		for (int j = 0; j < 4; j++) {
+			s += "\n  " + to_string(j + 1) + ":" + data[answers[j]].kanji[other];
+		}
+		 questions.push_back({ s, to_string(correctNo) });
+	}
+	 return questions;
+}
+
+/*
+	*類義語の問題を作成する
+*/
+QuestionList CreateSynonymExam()
+{
+	const struct {
+		int count;			//要素数
+		const char* kanji[4];	//類義語の配列
+	}data[] = {
+		{ 2, "仲介(ちゅうかい)","斡旋(あっせん)"},
+		{ 3, "夭逝(ようせい)","夭折(ようせつ)","早世(そうせい)"},
+		{ 3, "交渉(こうしょう)","折衝(せっしょう)","協議(きょうぎ)"},
+		{ 3, "抜群(ばつぐん)", "傑出(けっしゅつ)", "出色(しゅっしょく)"},
+		{ 4, "熟知(じゅくち)", "通暁(つうぎょう)", "知悉(ちしつ)", "精通(せいつう)"},
+	};
+
+	constexpr int quizCount = 5;
+	QuestionList questions;
+	questions.reserve(quizCount);
+	const vector<int> indices = CreateRandomIndices(size(data));
+	random_device rd;
+
+	for (int i = 0; i < quizCount; i++) {
+	   // 間違った番号をランダムに選ぶ
+		const int correctIndex = indices[i];
+		vector<int> answers = CreateWrongIndices(size(data), correctIndex);
+
+	   // ランダムな位置を正しい番号で上書き
+		const int correctNo = uniform_int_distribution<>(1, 4)(rd);
+		answers[correctNo - 1] = correctIndex;
+
+	   // 出題する類義語を選択
+		const auto & e = data[indices[i]];
+		const int object = uniform_int_distribution<>(0, e.count - 1)(rd);
+
+	   // 問題文を作成
+		string s = "「" + string(data[correctIndex].kanji[object]) +
+		"」の類義語として正しい番号を選べ";
+		for (int j = 0; j < 4; j++) {
+			if (j == correctNo - 1) {
+        // 出題する語「以外」の類義語を正解として選択
+			int other = uniform_int_distribution<>(0, e.count - 2)(rd);
+			if (other >= object) {
+				other++;
+				}
+			s += "\n  " + to_string(j + 1) + ":" + e.kanji[other];
+			} else {
+        // 誤答を選択
+			const auto & f = data[answers[j]];
+			const  int k = uniform_int_distribution<>(0, f.count - 1)(rd);
+			s += "\n  " + to_string(j + 1) + ":" + f.kanji[k];
+			}
+		}
+			questions.push_back({ s, to_string(correctNo) });
+	}
+
+	return questions;
+}
