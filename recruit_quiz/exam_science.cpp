@@ -69,5 +69,21 @@ QuestionList CreatePhysicsExam()
 			answer });
 	}	//重力加速度
 
+	{	//浮力
+		int s = uniform_int_distribution<>(5, 20)(rd);	//底面積
+		int h = uniform_int_distribution<>(2, 10)(rd);	//高さ
+		int v = s * h + 5;	//体積を求め、四捨五入のための5を加える
+		string answer = to_string(v / 100);	//整数部を文字列に変換
+		v /= 10;	//小数点以下第2位にあたる部分を捨てる
+		if (v % 10) {	//小数点以下第1位が0以外なら、小数部を文字列に加える
+			answer += '0' + v % 10;
+		}
+		questions.push_back({
+			"質量100gの物体に働く重力を1Nとする。\n底面積" + to_string(s) + "cm^2、高さ" +
+			to_string(h) + "cmの円柱を完全に水中に沈めた。\n" +
+			"このとき、この円柱に働く浮力はXニュートンである。\n" +
+			"Xの値を小数点以下第2位を四捨五入して求めよ。",
+			answer });
+	}	//浮力
 	return questions;
 }
