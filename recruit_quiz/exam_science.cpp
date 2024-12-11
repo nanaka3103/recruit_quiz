@@ -84,6 +84,38 @@ QuestionList CreatePhysicsExam()
 			"このとき、この円柱に働く浮力はXニュートンである。\n" +
 			"Xの値を小数点以下第2位を四捨五入して求めよ。",
 			answer });
+
+		int x = uniform_int_distribution<>(20, 50)(rd) * 10;	//重さ(空中)
+		int y = uniform_int_distribution<>(x / 2, x - 1)(rd);	//重さ(水中)
+		int z = x - y + 5;
+		answer = to_string(z / 100);
+		z /= 10;
+		if (z % 10) {
+			answer += '.';
+			answer += '0' + z % 10;
+		}
+		questions.push_back({
+			"質量100gの物体に働く重力を1Nとする。\nある物体の重さをばねばかりではかると" +
+			to_string(x) + "gを示した。\n" + "この物体を完全に水に入れたところ、ばねばかりは"
+			+ to_string(y) + "gを示した。\nこのとき、物体にはたらく浮力はXニュートンである\n" +
+			"Xの値を小数点以下第2位を四捨五入して求めよ。",
+			answer });
+
+		int p0 = uniform_int_distribution<>(1, 9)(rd) * 100;	//密度
+		s = uniform_int_distribution<>(5, 10)(rd);				//底面積
+		h = uniform_int_distribution<>(5, 10)(rd);				//高さ
+		z = h * p0 + 50;
+		answer = to_string(z / 1000);
+		z /= 100;
+		if (z % 10) {
+			answer += '.';
+			answer += '0' + z % 10;
+		}
+		questions.push_back({
+			"密度" + to_string(p0) + "kg/m^3、底面積" + to_string(s) + "cm^2、高さ" + 
+			to_string(h) + "cmの物体を水に沈めようとしたところ、Xcm沈んで静止した。\n" + 
+			"Xの値を小数点以下第1まで求めよ。",
+			answer });
 	}	//浮力
 	return questions;
 }
