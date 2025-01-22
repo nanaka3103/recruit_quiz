@@ -20,12 +20,13 @@ int main()
 		const char* name;			//教科名
 		QuestionList(*create)();	//問題作成関数のアドレス
 	} subjectData[] = {
-		{"数学",CreateMathematicsExam},
-		{"国語",CreateJapaneseExam},
-		{"物理",CreatePhysicsExam},
-		{"地理",CreatePrefecturesExam},
-		{"政治",CreatePoliticsExam},
-		{"経済",CreateEconomicsExam},
+		{ "数学",CreateMathematicsExam},
+		{ "国語",CreateJapaneseExam},
+		{ "英語", CreateEnglishExam },
+		{ "物理",CreatePhysicsExam},
+		{ "地理",CreatePrefecturesExam},
+		{ "政治",CreatePoliticsExam},
+		{ "経済",CreateEconomicsExam},
 	};
 
 	vector < Question> questions(3);
@@ -33,16 +34,22 @@ int main()
 	cout << "[リクルート試験対策クイズ]\n";
 
 	cout << "教科を選んでください\n";
+	cout << "0=総合テスト\n";
 	for (int i = 0; i < size(subjectData); i++) {
 		cout << i + 1 << '=' << subjectData[i].name << '\n';
-
 	}	
 	
 	int subject;
 	cin >> subject;
-
 	if (subject > 0 && subject <= size(subjectData)) {
 		questions = subjectData[subject - 1].create();
+	} else if (subject == 0) {
+	  // 総合テスト
+	  questions.clear();
+	  for (int i = 0; i < size(subjectData); i++) {
+		QuestionList tmp = subjectData[i].create();
+		questions.insert(questions.end(), tmp.begin(), tmp.end());
+	  }
 	}
 
 	for (const auto& e : questions) {
