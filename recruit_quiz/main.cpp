@@ -24,33 +24,19 @@ int main()
 	cin >> subject;
 	if (subject == 1) {
 		questions = CreateMathematicsExam();
-	}
-	else if (subject == 2) {
-		questions = CreateKanjiExam();
-		const QuestionList idiomExam = CreateIdiomExam();
-		questions.insert(questions.end(), idiomExam.begin(), idiomExam.end());
-		QuestionList homophoneExam = CreateHomophoneExam();
-		questions.insert(questions.end(), homophoneExam.begin(), homophoneExam.end());
-		QuestionList antonymExam = CreateAntonymExam();
-		questions.insert(questions.end(), antonymExam.begin(), antonymExam.end());
-		QuestionList synonymExam = CreateSynonymExam();
-		questions.insert(questions.end(), synonymExam.begin(), synonymExam.end());
-	}
-	else if (subject == 3) {
+	} else if (subject == 2) {
+		questions = CreateJapaneseExam();
+	} else if (subject == 3) {
 		questions = CreateEnglishWordExam();
 		QuestionList phraseExam = CreateEnglishPhraseExam();
 		questions.insert(questions.end(), phraseExam.begin(), phraseExam.end());
-	}
-	else if (subject == 4) {
+	} else if (subject == 4) {
 		questions = CreatePhysicsExam();
-	}
-	else if (subject == 5) {
+	} else if (subject == 5) {
 		questions = CreatePrefecturesExam();
-	}
-	else if (subject == 6) {
+	} else if (subject == 6) {
 		questions = CreatePoliticsExam();
-	}
-	else if (subject == 7) {
+	} else if (subject == 7) {
 		questions = CreateEconomicsExam();
 	}
 
